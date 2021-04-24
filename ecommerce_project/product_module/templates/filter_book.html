@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{%block start%} 
+<div class="col-sm-3">
+    <div class="search_box pull-right">
+        <div class="input-group">
+        <form method="POST">
+            {% csrf_token %}
+            <input name="query" type="text" placeholder="Search" value="{{search_query}}"/>
+            </form>
+    </div>
+    <!-- <form class="form-inline" method="POST">
+        {% csrf_token %}
+        <div>
+        <input name="query" class="form-control" type="text"
+        placeholder="Search/enter price-range" aria-label="Search"
+        value="{{search_query}}">
+        </div>
+        </form> -->
+</div>
+{%endblock start%}
+{% block content %}
+{% for book in books %}
+<div class="col-sm-3">
+    <div class="product-image-wrapper">
+        <div class="single-products">
+            <div class="productinfo text-center">
+                <a href="/details/{{book.id}}">
+                <img src="{{book.image_url}}" alt="" height="300px" width="200px"/>
+                <h2 style="font-size: 9px;">{{ book.name }}</h2>
+                <p>Rs. {{ book.price }}</p>
+                </a>
+            </div>
+            <div class="product-overlay">
+                <div class="overlay-content">
+                    <!-- <h2>{{ product.name }}</h2> -->
+                    <p>By - {{ book.author }}</p>
+                    <!-- <p>{{ product.description }}</p>
+                    <p>Rs. {{ product.price }}</p>
+                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Wish List</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+{% block pagee %}
+
+
+<ul class="pagination" >
+    {% if books.has_previous  %}
+    <li><a href="?page={{books.previous_page_number}}" >&laquo;</a></li>
+    {% endif %}
+    
+   
+    <li class="page-link{% if i == page_number %} active {% endif %}">
+        <a class="page-link" href="?page=page">{{books.number}}</a>
+    </li>
+    {% if books.has_next  %}
+    <li><a href="?page={{books.next_page_number}}" aria-label="Next">&raquo;</a></li>
+    {% endif %}
+</ul>
+
+
+{% endblock pagee%}
+
+{% block title %}
+Home
+{% endblock title %}

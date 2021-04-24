@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Fail{% endblock %} {% block header %}
+<h2>Operation Failed</h2>
+{% endblock %}
+{% block content %}
+<h3 class="text-danger">Failed adding to cart - {{ message }}</h3>
+<p>Can't exceed availibilty of books also can't be 0 </p>
+<p>
+<a class="btn btn-info" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> View cart </a>
+</p>
+{% endblock %}

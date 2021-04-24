@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>KITAB PASAL | {% block title%} {% endblock title %} </title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/prettyPhoto.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/animate.css'%}" rel="stylesheet">
+	<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <!-- <link rel="shortcut icon" href="{% static 'images/ico/favicon.ico'%}"> -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'images/ico/apple-touch-icon-144-precomposed.png'%}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/ico/apple-touch-icon-114-precomposed.png'%}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'images/ico/apple-touch-icon-72-precomposed.png'%}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'images/ico/apple-touch-icon-57-precomposed.png'%}">
+</head><!--/head-->
+
+<body>
+	<header id="header"><!--header-->
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="contactinfo">
+							<ul class="nav nav-pills">
+								<li><a href="#"><i class='fa fa-phone'></i> +977 9841-654321</a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i> info@kpasal.com</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="social-icons pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="#"><i class="fab fa-facebook-f"></i></i></a></li>
+								<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<a href="/"><img src="{% static '/images/home/logo.png' %}" alt="" /></a>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								{% if user.is_authenticated %}
+									<li class="dropdown" aria-labelledby="dropdownMenuLink"><a href=""> <i class="fa fa-user"></i> {{user.username}} <i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a href="{% url 'logout' %}">Logout</a></li>                                
+                                        <li><a href="{% url 'changepassword' %}">Change Password</a></li>
+									</ul>
+                                </li> 
+								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-secondary badge-pill" style="margin-bottom:5px; ;">{%block cartitems%}{%endblock cartitems%}</span>
+								</a></li>
+
+								<!-- </li> -->
+								{% else %}
+								<li><a href="{% url 'customerlogin' %}"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="{% url 'customerregistration' %}"><i class="fa fa-user-plus"></i> Register</a></li>
+								{% endif %}
+
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header-middle-->
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+							<div class="mainmenu pull-left">
+								<ul class="nav navbar-nav collapse navbar-collapse">
+									<li><a href="/">Home</a></li>
+									<li><a href="/contact">Contact</a></li>
+									<li><a href="/aboutus">About us</a></li>
+									<li class="nav-item dropdown">
+										<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										  Catagories
+										</a>
+										<ul class="dropdown-menu text-center" id="category_menu" aria-labelledby="dropdownMenuLink">
+										  <li><a class="dropdown-item" href="{% url 'filter_book' 'All' %}">All</a></li>
+										  <li><a class="dropdown-item" href="{% url 'filter_book' 'Arts' %}">Arts</a></li>
+										  <li><a class="dropdown-item" href="{% url 'filter_book' 'Biography' %}">Biography</a></li>
+										  <li><a class="dropdown-item" href="{% url 'filter_book' 'Archaeology' %}">Archaeology</a></li>
+										  <li><a class="dropdown-item" href="{% url 'filter_book' 'Astrology' %}">Astrology</a></li>
+										  <li><a class="dropdown-item" href="{% url 'filter_book' 'History' %}">History</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							</div>
+							{%block start%} {%endblock start%}
+
+
+	</header><!--/header-->
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">	
+					<div class="features_items"><!--features_items-->
+						
+						<h1 class="title text-center" >
+						
+						</h1>
+						<div class="content" style="color:#FE980F">
+						{% block content %}{% endblock %}
+					</div>
+
+					</div>
+				</div>
+				{% block pagee%}{% endblock %}
+					
+				
+			</div>
+			
+			
+		</div>
+	</section>		
+	<footer id="footer"><!--Footer-->
+		<div class="footer-top">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="companyinfo">
+							<h2><span>KITAB</span>-PASAL</h2>
+							<p style="color:black";>For all your needs of Books in Nepal</p>
+						</div>
+					</div>
+					<div class="col-sm-7">
+					</div>
+					<div class="col-sm-3">
+						<div class="address">
+							<img src="{% static 'images/home/map.png' %}" alt="" />
+							<p>Lokanthali Bhaktapur, Nepal</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left">Copyright © 2021 KITAB Pasal. All rights reserved.</p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="#" style="font-weight: bold;">Kitab Pasal</a></span></p>
+				</div>
+			</div>
+		</div>
+		
+	</footer><!--/Footer-->
+	
+
+  
+    <script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
+
+    <script src="{% static 'js/jquery.prettyPhoto.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
