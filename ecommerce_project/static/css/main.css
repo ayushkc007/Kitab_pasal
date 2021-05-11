@@ -10,6 +10,7 @@ body {
   font-family: 'Roboto', sans-serif;
   position: relative;
   font-weight:400px;
+  background-color: rgba(243, 244, 246, 1);
 }
 
 ul li {
@@ -68,6 +69,10 @@ a#scrollUp i{
 
 .header_top {
   background: none repeat scroll 0 0 #F0F0E9;
+  position: fixed;
+  opacity: 1.0;
+  width:100%;
+  z-index: 1;
 }
 
 .contactinfo ul li:first-child{
@@ -197,7 +202,7 @@ a#scrollUp i{
 
 
 .shop-menu ul li a {
-  background: #FFFFFF;
+  background-color: rgba(243, 244, 246, 1);
   color: #696763;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
@@ -722,9 +727,9 @@ ul.sub-menu {
 }
 
 h2.title:before{
+  background: rgba(243, 244, 246, 1);
 	content: " ";
 	position: absolute;
-	background: #fff;
 	bottom: -6px;
 	width: 220px;
 	height: 30px;
@@ -862,6 +867,7 @@ h2.title:before{
 
 
 h2.title {
+  background: rgba(243, 244, 246, 1);
   color: #FE980F;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
@@ -883,9 +889,11 @@ h1.title {
 }
 
 .product-image-wrapper{
-	border:1px solid #F7F7F5;
+	/* border:1px solid #F7F7F5; */
 	overflow: hidden;
 	margin-bottom:30px;
+  /* padding: 10px; */
+  box-shadow: 5px 5px 10px #888;
 }
 
 .single-products {
@@ -924,7 +932,12 @@ h1.title {
 }
 
 .productinfo{
- position:relative;
+  /* border: 1px solid; */
+  position: relative;
+  /* border: 2px solid #FE980F;
+  position:relative;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px; */
 }
 
 
@@ -1217,7 +1230,7 @@ small{
 
 .view-product img {
   border: 1px solid #F7F7F0;
-  height: 380px;
+  height: 600px;
   width: 100%;
 }
 

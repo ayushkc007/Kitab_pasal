@@ -3,17 +3,17 @@ from .forms import LoginForm,MyPasswordChangeForm,MyPasswordResetForm,MySetPassw
 from product_module import views
 from django.contrib.auth import views as auth_views
 from .views import (index,contact,cart,removecart,details,sendemail,
-success_contact,error_contact,success_page,error_page,error,aboutus,changePassword,filter_books)
+success_contact,error_contact,success_page,error_page,error,aboutus,changePassword,filter_books,user_register)
 
 urlpatterns = [
-    path('', index),
-    path('contact/', contact),
-    path('aboutus/', aboutus),
+    path('', index, name='index'),
+    path('contact/', contact,name='contact'),
+    path('aboutus/', aboutus, name='aboutus'),
     # path('login/', login_view),
     # path('registration/', registration_view),
-    path('registration/', views.CustomerRegistrationView.as_view(), name='customerregistration'),
+    path('registration/', user_register, name='customerregistration'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html',
-    authentication_form=LoginForm),name='customerlogin'),
+    authentication_form=LoginForm),name='/accounts/login/'),
     path('logout/',auth_views.LogoutView.as_view(next_page ='/login/'), name='logout'),
     path('contact/sendemail', sendemail),
     path('details/<int:id>',details),

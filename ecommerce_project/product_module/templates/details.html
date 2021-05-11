@@ -29,7 +29,7 @@ Book Details
 									<br><br>
 									<label>Quantity:</label>
 									<form action="cart" method="POST">
-									<input type="number" name="qty" placeholder="number" value="1"/></input>
+									<input type="number" name="qty" placeholder="number" value="1"/>
 									<input type="hidden" name="id" value="{{product.id}}" />
 									{% csrf_token %}
 									
@@ -40,9 +40,10 @@ Book Details
 								</form>
 									<br><br>
 								</span>
-								<p><b>Availability: {{product.quantity}}</b> In Stock</p>
+								<p><b>ISBN: {{product.ISBN}}</b></p>
+								<p><b>Availability: {{product.quantity}}</b>{% if product.quantity <= 0 %} Out of Stock{% else%} in Stock {% endif %}</p>
 								<p><b>Publication: </b> {{product.publication}}</p>
-								<p><b>Description: <br></b> {{product.description}}</p>
+								<p style="text-align:justify"><b>Description: <br></b> {{product.description}}</p>
 								<!-- <a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a> -->
 							</div><!--/product-information-->
 						</div>

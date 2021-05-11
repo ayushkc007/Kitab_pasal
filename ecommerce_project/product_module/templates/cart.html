@@ -2,10 +2,10 @@
 {%block cartitems%}{{cart_items|length}}{%endblock cartitems%}
 {% block content %}
 {% if cart_items %}
-{% block title %} Cart {% endblock title %}
+<!-- {% block title %} Cart {% endblock title %} -->
 	<section id="cart_items">
 		<!-- <div class="container"> -->
-
+			<h1 class="title text-center">Cart</h1>
 			<div class="table-responsive cart_info">
 				<table class="table table-condensed">
 					<thead>
@@ -62,7 +62,7 @@
 						<ul>
 							<li>Cart Sub Total <span>{{total}}</span></li>
 							<li>Eco Tax <span>{{tax}}</span></li>
-							<li>Shipping Cost <span>{{shippingcost}}</span></li>
+							<li>Shipping Cost <span>{{shipping_cost}}</span></li>
 							<li>Total <span>Rs.{{grandtotal}}</span></li>
 						</ul>
 							<form method="post" action="/payment/checkout/">
@@ -70,6 +70,8 @@
 							<input type="text" class="form-control" name="city" placeholder="City" required="required" style="margin-left:11%;text-align: center; width:40%; float:left;"/> 
 							<input type="text" class="form-control" name="address" placeholder="Address" required="required" style="margin-left:60%;text-align: center; width:40%"/> 
 							<br>
+							<input type="text" class="form-control" name="contact_no" placeholder="Phone number" required="required" style="margin-left:11%;text-align: center; width:90%"/>
+							<br> 
 							<input type="text" class="form-control" name="token" placeholder="Token" required="required" style="margin-left:11%;text-align: center; width:90%"/> 
 							<button class="btn btn-default update" type="submit" style="margin-left:40%">Check Out</a>
 								{% csrf_token %}

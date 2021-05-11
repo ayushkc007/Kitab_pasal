@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import Product ,Publication, Category, CartItem
+from .models import Product ,Publication, Category, CartItem,Slider,Tax,Shipping_Cost
 from datetime import datetime
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -10,6 +10,13 @@ from .forms import CustomerRegistrationForm
 from django.views import View
 from django.contrib import messages
 import smtplib
+from verify_email.email_handler import send_verification_email
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
+from django.contrib.auth.models import User
+from payment_module.models import Invoice,InvoiceDetails
 # Create your views here.
 def index(request):
     if request.method == "GET":
@@ -22,6 +29,10 @@ def index(request):
             filter_query = Q(publication__id=publication_id)
             products = Product.objects.filter(filter_query) 
         else:
+            slider_objects =Slider.objects.get(pk=1)
+            best_seller = Product.objects.get(pk=slider_objects.best_seller_productID)
+            our_pick = Product.objects.get(pk=slider_objects.our_pick_productID)
+            new_arrival = Product.objects.get(pk=slider_objects.new_arrival_productID)
             products = Product.objects.all()
             categories = Category.objects.all() 
             publications = Publication.objects.all()
@@ -35,6 +46,9 @@ def index(request):
             except EmptyPage:
                 books=paginator.page(paginator.num_pages)
             context = {
+                'best_seller': best_seller,
+                'our_pick': our_pick,
+                'new_arrival': new_arrival,
                 'products': books, 
                 'categories': categories, 
                 'publications': publications, 
@@ -47,6 +61,7 @@ def index(request):
             price_values = q.split("-")
             filter_query = Q(price__gte=price_values[0]) & Q(price__lte=price_values[1]) 
         else:
+            slider_objects =Slider.objects.get(pk=1)
             filter_query = Q(name__icontains=q) | Q(price__icontains=q) | Q(publication__name__icontains=q)
             products = Product.objects.filter(filter_query)
             categories = Category.objects.all()
@@ -60,6 +75,7 @@ def index(request):
             except EmptyPage:
                 books=paginator.page(paginator.num_pages)
             context = {
+            'slider': slider_objects,
             'products': books, 
             'categories': categories, 
             'publications': publications, 
@@ -134,17 +150,19 @@ def cart(request):
 # retrieve the cart items for the user from db 
     cart_items = CartItem.objects.filter(user=request.user)
 # calculate total
-    total = 0
+    total = 0.0
     for item in cart_items:
         total += item.product.price * item.quantity
 # return view 
-    tax=total*0.13
-    shippingcost=60
-    grandtotal=total+tax+shippingcost
+    shipping= Shipping_Cost.objects.get(pk=1)
+    shipping_cost =shipping.shipping_cost
+    tax_rate = Tax.objects.get(pk=1)
+    tax=total*(tax_rate.tax_rate_in_percentage/100.0)
+    grandtotal=total+shipping_cost+tax
     context = {
         'cart_items': cart_items,
         'total': total, 
-        'shippingcost':shippingcost,
+        'shipping_cost':shipping_cost,
         'tax':tax,
         'grandtotal':grandtotal,
         }
@@ -178,6 +196,7 @@ def error_contact(request):
     message = request.session["message"]
     return render(request, "error_contact.html", {"message": message})
 
+
 def success_page(request):
     message = request.session["message"]
     return render(request, "success_page.html", {"message": message})
@@ -195,15 +214,16 @@ def error(request):
 # def registration_view(request):
 #     return render(request,"registration.html")  
 
-class CustomerRegistrationView(View):
-    def get(self, request):
+def user_register(request):
+    if request.method == "GET":
         form = CustomerRegistrationForm()
         return render(request, 'registration.html',{'form':form})
-    def post(self,request):
+    if request.method == "POST":
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
+            inactive_user = send_verification_email(request, form)
             messages.success(request,'Congratulations!! Registered Successfully')
-            form.save()
+          
         return render(request, 'registration.html',{'form':form})
 
 def changePassword(request):
@@ -234,7 +254,5 @@ def filter_books(request,data=None):
             books=paginator.page(paginator.num_pages)
     else:
         books = Product.objects.all()
-    return render(request,'filter_book.html',{'books':books})
-
-
+    return render(request,'filter_book.html',{'books':books, 'data':data})
 

@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% block title %}
+{{data}}
+{% load static %}
+{% endblock title %}
 {%block start%} 
 <div class="col-sm-3">
     <div class="search_box pull-right">
@@ -19,21 +23,25 @@
 </div>
 {%endblock start%}
 {% block content %}
+<h1 class="title text-center">{{data}} Books</h1>
 {% for book in books %}
 <div class="col-sm-3">
     <div class="product-image-wrapper">
         <div class="single-products">
+            {% if book.new == True %}
+            <img src="{% static 'images/home/new.png' %}" class="new" alt="" style="z-index: 1;"/>
+            {% endif %}
             <div class="productinfo text-center">
                 <a href="/details/{{book.id}}">
-                <img src="{{book.image_url}}" alt="" height="300px" width="200px"/>
-                <h2 style="font-size: 9px;">{{ book.name }}</h2>
+                <img src="{{book.image_url}}" alt="" height="350px" width="200px"/>
+                <h2 style="font-size: 16px;">{{ book.name|truncatechars:30 }}</h2>
                 <p>Rs. {{ book.price }}</p>
                 </a>
             </div>
             <div class="product-overlay">
                 <div class="overlay-content">
                     <!-- <h2>{{ product.name }}</h2> -->
-                    <p>By - {{ book.author }}</p>
+                    <p>By - {{ book.author|truncatechars:30 }}</p>
                     <!-- <p>{{ product.description }}</p>
                     <p>Rs. {{ product.price }}</p>
                     <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -65,6 +73,3 @@
 
 {% endblock pagee%}
 
-{% block title %}
-Home
-{% endblock title %}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 STATICFILES_DIRS=[
-    "D:\Django-projects\E_BookStore\ecommerce_project\static",
+    "D:/Django-projects/E_BookStore/ecommerce_project/static",
 ]
 
 # Application definition
@@ -36,12 +37,15 @@ STATICFILES_DIRS=[
 INSTALLED_APPS = [
     'product_module',
     'payment_module',
+    'admin_black.apps.AdminBlackConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'verify_email.apps.VerifyEmailConfig', 
+    'mail_templated',
 ]
 
 MIDDLEWARE = [
@@ -83,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME' : 'bookstore',
         'USER' : 'postgres',
-        'PASSWORD' : 'xyz',
+        'PASSWORD' : 'nabaraj1',
         'HOST' : '127.0.0.1',
         'PORT' : '5432',
     }
@@ -128,14 +132,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 LOGIN_REDIRECT_URL='/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'xyzgmail.com'
-EMAIL_HOST_PASSWORD = 'password'
-
+EMAIL_HOST_USER = 'ranan8894@gmail.com'
+EMAIL_HOST_PASSWORD = '9819751906n'
+DEFAULT_FROM_EMAIL = 'noreply<ranan8894@gmail.com>'
+EXPIRE_AFTER = "1h"
+MAX_RETRIES=3
